@@ -33,14 +33,17 @@ cap = cv.VideoCapture(0)
         #pError = trackFace(info, w, pid, pError)
         #print("center", info[0], "Area", info[1])
 #        cv.imshow("Output", img)
-#        if key.is_pressed('q'):
+#  zq      if key.is_pressed('q'):
 #            land()
 
 
 # Fonction qui permet de se connecter au Tello et de le faire decoller
 def wake_up():
     me.takeoff()
-    time.sleep(2)
+    time.sleep(1)
+    me.send_rc_control(0, 20, 0, 0)
+    time.sleep(0.5)
+    me.send_rc_control(0, 0, 0, 0)
     print ("Tello waked-up")
 
 # Fonction de lecture vidéo
@@ -63,18 +66,25 @@ def land():
 def forward():
     me.send_rc_control(0,20,0,0)
     time.sleep(2)
+    me.send_rc_control(0, 0, 0, 0)
     print("Tello moved forward")
-    me.send_rc_control()
+    
 
 def move_right():
-    me.send_rc_control(20,0,0,0)
+    me.send_rc_control(20, 0, 0, 0)
     time.sleep(2)
+    me.send_rc_control(0, 0, 0, 0)
     print("Tello moved right")
 
 def move_left():
     me.send_rc_control(-20,0,0,0)
     time.sleep(2)
+    me.send_rc_control(0, 0, 0, 0)
     print("Tello moved left")
+
+def face_tracking():
+    me.send_rc_control(0, 0, 0, 0)
+    print("The tello drone is supposed right now to track differents faces en store in in a database")
     
 #print("Voici notre premier test avec le keyboard et l'enregistrement de video")
 print("En attente de commande !")
@@ -91,6 +101,8 @@ while True:
     elif key.is_pressed('q'):
         move_left()
     elif key.is_pressed('e'):
-        land()    
+        land() 
+    elif key.is_pressed('space'):
+        key.add_hotkey('enter', face_tracking)   
         break
 
