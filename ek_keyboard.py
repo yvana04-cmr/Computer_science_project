@@ -37,18 +37,14 @@ cap = cv.VideoCapture(0)
 #            land()
 
 
-
 # Fonction qui permet de se connecter au Tello et de le faire decoller
 def wake_up():
     me.takeoff()
     time.sleep(2)
-    #me.rotate_clockwise(-90)
-    #time.sleep(1)
-    #time.sleep(3)
     print ("Tello waked-up")
 
+# Fonction de lecture vidéo
 def stream():
-    me.streamoff()
     me.streamon()
     while True:
         img = me.get_frame_read().frame
@@ -59,14 +55,16 @@ def stream():
 
 # Fonction qui coupe le stream de la vidéo de ma webcam
 def land():
-    cap.release()
-    cv.destroyAllWindows()
+    me.send_rc_control(0,0,0,0)
+    time.sleep(1)
+    me.land()
 
 # fonctions permettant le déplacement du drône
 def forward():
     me.send_rc_control(0,20,0,0)
     time.sleep(2)
     print("Tello moved forward")
+    me.send_rc_control()
 
 def move_right():
     me.send_rc_control(20,0,0,0)
@@ -78,37 +76,21 @@ def move_left():
     time.sleep(2)
     print("Tello moved left")
     
-
-print("Voici notre premier test avec le keyboard et l'enregistrement de video")
+#print("Voici notre premier test avec le keyboard et l'enregistrement de video")
 print("En attente de commande !")
-
-
 
 while True:
     if key.is_pressed('w'):
         wake_up()
-    break
-
-#while True:
-#    if key.is_pressed('z'):
-#        forward()
-#        break
-
-while True:
-    if key.is_pressed('s'):
+    elif key.is_pressed('s'):
         stream()
-    break
-
-#while True:
-#    if key.is_pressed('q'):
-#        move_left()
-#        break
-
-
-while True:
-    if key.is_pressed('d'):  #Move right
-        me.send_rc_control(20,0,0,0)
-        time.sleep(2)
-        print("Tello moved right")
+    elif key.is_pressed('z'):
+        forward()
+    elif key.is_pressed('d'):
+        move_right()
+    elif key.is_pressed('q'):
+        move_left()
+    elif key.is_pressed('e'):
+        land()    
         break
 
