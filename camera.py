@@ -1,5 +1,6 @@
 # Imporation des librairie nécessaire
 import cv2 as cv 
+from djitellopy import Tello
 import keyboard as key
 import time
 

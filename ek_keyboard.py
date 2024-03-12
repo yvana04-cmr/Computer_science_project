@@ -1,11 +1,10 @@
 # Imporation des librairie nécessaire
+from djitellopy import Tello
 import cv2 as cv 
 import keyboard as key
 import time
-from djitellopy import Tello
+#import face_detection_test1
 
-
-qrd = cv.QRCodeDetector()
 
 
 ##################################################
@@ -21,22 +20,6 @@ me.speed = 0
 
 print(me.get_battery())
 
-cap = cv.VideoCapture(0)
-
-#def take_off():    # Wake up, cette fonction permet de lancer  la lecture video de la webcam et de resize l'image    
-#    while True:
-#        ret, frame = cap.read()
-#        #img = img.get_frame_read().frame
-#        img = cv.flip(frame, 1)
-        #img = cv.resize(img, (780,420))
-        #img, info = findFace(img)
-        #pError = trackFace(info, w, pid, pError)
-        #print("center", info[0], "Area", info[1])
-#        cv.imshow("Output", img)
-#  zq      if key.is_pressed('q'):
-#            land()
-
-
 # Fonction qui permet de se connecter au Tello et de le faire decoller
 def wake_up():
     me.takeoff()
@@ -47,13 +30,35 @@ def wake_up():
     print ("Tello waked-up")
 
 # Fonction de lecture vidéo
-def stream():
+def face_tracking():
+    # Charger le classificateur Haar cascade pour la détection de visages
+    face_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
+
     me.streamon()
     while True:
-        img = me.get_frame_read().frame
+        me.send_rc_control(0,0,20,0)
+        time.sleep(1)
+        me.send_rc_control(0,0,0,0)
+
+        me.send_rc_control(0,10,0,0)
+        img,ret = me.get_frame_read().frame
         img = cv.flip(img,1)
+        if not ret:
+            break
+        # Convertir l'image en niveaux de gris
+        gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        me.send_rc_control(5,5,0,0)
+        # Détecter les visages dans l'image
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+        nombre_visages += len(faces)
+
+        # Dessiner des rectangles autour des visages détectés
+        for (x, y, w, h) in faces:
+            cv.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+
         cv.imshow("Output", img)
-        if cv.waitKey(10) & 0xFF == ord('q'):
+        if cv.waitKey(1) & 0xFF == ord('q'):
             break
 
 # Fonction qui coupe le stream de la vidéo de ma webcam
@@ -103,6 +108,6 @@ while True:
     elif key.is_pressed('e'):
         land() 
     elif key.is_pressed('space'):
-        key.add_hotkey('enter', face_tracking)   
+        key.add_hotkey('enter', face_detection_test1.detecter_visages)   
         break
 
