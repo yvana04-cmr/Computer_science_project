@@ -30,32 +30,31 @@ def wake_up():
     print ("Tello waked-up")
 
 # Fonction de lecture vidéo
-def face_tracking():
+def det_tracking():
     # Charger le classificateur Haar cascade pour la détection de visages
     face_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
 
     me.streamon()
     while True:
-        me.send_rc_control(0,0,20,0)
-        time.sleep(1)
+        #me.send_rc_control(0,0,20,0)
+        #time.sleep(1)
         me.send_rc_control(0,0,0,0)
 
-        me.send_rc_control(0,10,0,0)
-        img,ret = me.get_frame_read().frame
+        #me.send_rc_control(0,10,0,0)
+        img = me.get_frame_read().frame
         img = cv.flip(img,1)
-        if not ret:
-            break
+        #if not img:
+        #    break
         # Convertir l'image en niveaux de gris
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        me.send_rc_control(5,5,0,0)
+        #me.send_rc_control(5,5,0,0)
         # Détecter les visages dans l'image
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-
-        nombre_visages += len(faces)
 
         # Dessiner des rectangles autour des visages détectés
         for (x, y, w, h) in faces:
             cv.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+            nombre_visages += len(faces)
 
         cv.imshow("Output", img)
         if cv.waitKey(1) & 0xFF == ord('q'):
@@ -97,8 +96,6 @@ print("En attente de commande !")
 while True:
     if key.is_pressed('w'):
         wake_up()
-    elif key.is_pressed('s'):
-        stream()
     elif key.is_pressed('z'):
         forward()
     elif key.is_pressed('d'):
@@ -108,6 +105,7 @@ while True:
     elif key.is_pressed('e'):
         land() 
     elif key.is_pressed('space'):
-        key.add_hotkey('enter', face_detection_test1.detecter_visages)   
+        key.add_hotkey('enter', det_tracking)
+        key.wait('esc')   
         break
 

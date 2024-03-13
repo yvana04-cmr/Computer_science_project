@@ -36,6 +36,8 @@ def adjust_brightness(image, factor):
 
 # Fonction de lecture vidéo
 def stream():
+    me.send_rc_control(0, 0, 0, 0)
+    print("The tello drone is supposed right now to track differents faces en store in a database")
     me.streamon()
     while True:
         img = me.get_frame_read().frame
@@ -99,10 +101,6 @@ def move_left():
     time.sleep(2)
     me.send_rc_control(0, 0, 0, 0)
     print("Tello moved left")
-
-def face_tracking():
-    me.send_rc_control(0, 0, 0, 0)
-    print("The tello drone is supposed right now to track differents faces en store in in a database")
     
 #print("Voici notre premier test avec le keyboard et l'enregistrement de video")
 print("En attente de commande !")
@@ -110,8 +108,6 @@ print("En attente de commande !")
 while True:
     if key.is_pressed('w'):
         wake_up()
-    elif key.is_pressed('s'):
-        stream()
     elif key.is_pressed('z'):
         forward()
     elif key.is_pressed('d'):
@@ -120,8 +116,14 @@ while True:
         move_left()
     elif key.is_pressed('e'):
         land() 
+    elif key.is_pressed('l'):
+        me.rotate_clockwise(90)
+        print("Tello turned right")
+    elif key.is_pressed('j'):
+        me.rotate_clockwise(-90)
+        print("Tello turned left")
     elif key.is_pressed('space'):
-        key.add_hotkey('enter', face_tracking)   
+        key.add_hotkey('enter', stream)   
         break
 
 
