@@ -28,6 +28,12 @@ def wake_up():
     me.send_rc_control(0, 0, 0, 0)
     print ("Tello waked-up")
 
+def adjust_brightness(image, factor):
+    """
+    Ajuste la luminosité de l'image en multipliant chaque pixel par un facteur spécifié.
+    """
+    return cv2.convertScaleAbs(image, alpha=factor, beta=0)
+
 # Fonction de lecture vidéo
 def stream():
     me.streamon()
@@ -41,8 +47,11 @@ def stream():
 
         nombre_visages = 0
 
+        # Ajuste la luminosité de la frame
+        brightened_frame = adjust_brightness(img, 1)
+
          # Convertir l'image en niveaux de gris
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(brightened_frame, cv2.COLOR_BGR2GRAY)
 
         # Détecter les visages dans l'image
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
@@ -51,10 +60,10 @@ def stream():
 
         # Dessiner des rectangles autour des visages détectés
         for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+            cv2.rectangle(brightened_frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
         # Afficher l'image avec les visages détectés
-        cv2.imshow('frame', img)
+        cv2.imshow('frame', brightened_frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
