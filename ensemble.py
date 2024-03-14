@@ -74,7 +74,7 @@ def stream():
     cv2.destroyAllWindows()
 
     return nombre_visages
-
+    print(nombre_visages)
 
 # Fonction qui coupe le stream de la vidéo de ma webcam
 def land():
