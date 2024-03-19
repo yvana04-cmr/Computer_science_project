@@ -8,7 +8,7 @@ Authors:
 -   Nelson KUATE
 
 Supervisor:
-- Kevin DESCHARNIERE
+- Kevin DESCHARRIERE
 
  ## Table of Contents
  1. [Project Goal](#project-goal)
