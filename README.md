@@ -61,10 +61,15 @@ import time
 import keyboard as key
 import unittest
 ```
+
 ## Work plan
 
 We firstly tried to treat our images by image and video processing, in order to increase it brightness.
 After that, we focused ourselves on the keyboard control. As we can see on the following image, the 's' key permits us to launch de video streaming.
+
+<div style="text-align: center">
+  <img src="Image1.png">
+</div>
 
 ## Project Workflow
 
