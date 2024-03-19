@@ -1,6 +1,6 @@
 # Tello Control's Keyboard
 <div style="text-align: center">
-  <img src="Tello_pic.jpg"/>
+  <img src="ressources/Tello_pic.jpg"/>
 </div>
 
 Authors:
@@ -17,6 +17,7 @@ Supervisor:
  4. [Installing the required libraries](#installing-the-required-libraries)
  5. [Work plan](#work-plan)
  6. [Project Worflow](#project-workflow)
+ 7. [Demo Videos](#demo-videos)
 
 
 ## Project Goal
@@ -26,7 +27,7 @@ The aim of our project is to work with a mobile robot, in this case the Tello ro
 
 ## Tello drone configuration
 <div style="text-align: center">
-  <img src="tello configuration.png">
+  <img src="ressources/tello configuration.png">
 </div>
 
 Now that we have all the basic information about the drone, we will be able to connect to it.
@@ -68,7 +69,7 @@ We firstly tried to treat our images by image and video processing, in order to 
 After that, we focused ourselves on the keyboard control. As we can see on the following image, the 's' key permits us to launch de video streaming.
 
 <div style="text-align: center">
-  <img src="Image1.png">
+  <img src="ressources/Image1.png">
 </div>
 
 ## Project Workflow
@@ -76,5 +77,23 @@ After that, we focused ourselves on the keyboard control. As we can see on the f
 After setting all those parameters, we can start to write the movenment functions
 
 <div style="text-align: center">
-  <img src="UML.png">
+  <img src="ressources/UML.png">
 </div>
+
+## Demo Videos
+
+The below videos represent some tests on the Tello drone drive, in addition the the Tello's face tracking.
+
+| **Bright Correction test 1** | **Bright Correction test 2** |
+| -------------------- | --------------------- |
+| ![Correction lumineuse test 1](ressources/Média2.gif) | ![Correction lumineuse test 2](ressources/Média3.gif) |
+
+
+| **Tello's navigation** |
+| ------------------ |
+| ![deplacement_ele](ressources/deplacement_ele.gif) |
+
+
+| **Face detection** |
+| ---------------- |
+| ![face_tracking](ressources/face_tracking.gif) |
